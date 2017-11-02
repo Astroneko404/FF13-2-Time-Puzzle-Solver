@@ -9,10 +9,13 @@ automatically
 I made it just for fun :D
 Some algorithms of Hamiltonian paths are from:
     http://www.geeksforgeeks.org/backtracking-set-7-hamiltonian-cycle/
+
+Updating:
+Ver 1.0.1: Fixed an iteration bug
 """
 __author__ = "Astronoid_404"
-__date__ = "10/27/2017"
-__version__ = "1.0.0"
+__date__ = "11/01/2017"
+__version__ = "1.0.1"
 
 class Node:
     def __init__(self, value):
@@ -114,6 +117,7 @@ class LabyrinthSolver:
             if next2 < 0:
                 next2 = next2 + self.size
             node.next.append(self.data[next2])
+            #print '{}[{}], Left[{}], Right[{}]'.format(v, p, next1, next2)
 
     def print_result(self, path):
         """
@@ -142,7 +146,12 @@ class LabyrinthSolver:
 
             """
         route_path = [-1] * self.size
-        if self.hm_helper(self.data[0], route_path, 0) == 1:
+        found = False
+        for i in range(0, self.size - 1):
+            if self.hm_helper(self.data[i], route_path, 0) == 1:
+                found = True
+                break
+        if found:
             self.print_result(route_path)
         else:
             print 'There is no such path'
@@ -150,8 +159,8 @@ class LabyrinthSolver:
 
 while True:
     print '================================================'
-    v = raw_input("Please input each node in clockwise order: "
-                  "(Seperate them by space)\n")
+    v = raw_input('Please input each node in clockwise order: '
+                  '(Seperate them by space)\n')
     test_list = [int(i) for i in v.split()]
     graph = LabyrinthSolver()
     graph.import_list(test_list)
